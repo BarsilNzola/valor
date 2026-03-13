@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Hardhat
+contracts/artifacts/
+contracts/cache/
+contracts/typechain-types/
+contracts/coverage/
+contracts/coverage.json
+
+# Real deployment addresses — do not commit (re-run deploy to regenerate)
+contracts/deployments/*.json
+!contracts/deployments/.gitkeep
+shared/addresses.json
+
+# Environment files — NEVER commit secrets
+.env
+**/.env
+!**/.env.example
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs & coverage
+*.log
+logs/
+coverage/
+.nyc_output/
+*.tsbuildinfo
