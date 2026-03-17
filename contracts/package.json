@@ -14,12 +14,12 @@
     "build": "hardhat compile"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "@nomicfoundation/hardhat-ethers": "^3.0.0",
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
-    "@typechain/hardhat": "^9.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@typechain/ethers-v6": "^0.5.0",
+    "@typechain/hardhat": "^9.0.0",
     "@types/chai": "^4.3.0",
     "@types/mocha": "^10.0.0",
     "@types/node": "^22.0.0",
@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.0",
+    "dotenv": "^17.3.1",
     "ethers": "^6.13.0"
   }
 }

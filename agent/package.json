@@ -1,0 +1,30 @@
+{
+  "name": "@valor/agent",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@tetherto/wdk": "^1.0.0-beta.6",
+    "@tetherto/wdk-wallet-btc": "^1.0.0-beta.6",
+    "@tetherto/wdk-wallet-evm": "^1.0.0-beta.8",
+    "@tetherto/wdk-wallet-tron": "^1.0.0-beta.4",
+    "dotenv": "^16.4.0",
+    "ethers": "^6.13.0",
+    "pino": "^9.0.0",
+    "pino-pretty": "^11.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.15",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.15.0",
+    "typescript": "^5.9.3",
+    "vitest": "^1.6.0"
+  }
+}
