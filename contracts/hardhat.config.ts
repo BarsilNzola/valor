@@ -60,7 +60,7 @@ const config: HardhatUserConfig = {
     target: 'ethers-v6',
   },
   paths: {
-    sources: './src',
+    sources: './contracts',
     tests: './test',
     cache: './cache',
     artifacts: './artifacts',

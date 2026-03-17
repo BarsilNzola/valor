@@ -6,9 +6,9 @@
     "compile": "hardhat compile",
     "test": "hardhat test",
     "coverage": "hardhat coverage",
-    "deploy:localhost": "hardhat run script/Deploy.s.ts --network localhost",
-    "deploy:sepolia": "hardhat run script/Deploy.s.ts --network sepolia",
-    "deploy:arbitrum-sepolia": "hardhat run script/Deploy.s.ts --network arbitrumSepolia",
+    "deploy:localhost": "hardhat run scripts/Deploy.ts --network localhost",
+    "deploy:sepolia": "hardhat run scripts/Deploy.ts --network sepolia",
+    "deploy:arbitrum-sepolia": "hardhat run scripts/Deploy.ts --network arbitrumSepolia",
     "verify": "hardhat verify",
     "clean": "hardhat clean",
     "build": "hardhat compile"
