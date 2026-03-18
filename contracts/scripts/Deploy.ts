@@ -8,7 +8,7 @@ dotenv.config()
 // ─── Network USDT Addresses ───────────────────────────────────────────────────
 const USDT_ADDRESSES: Record<string, string> = {
   mainnet:        '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-  sepolia:        '0x7169D38820dfd117C3FA1f22a697dBA58d90BA06', // Pimlico test USDT
+  sepolia:        '0xd077A400968890Eacc75cdc901F0356c943e4fDb', // Pimlico test USDT
   arbitrumSepolia: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d',
   localhost:      '', // Set after MockUSDT deploy
 }
