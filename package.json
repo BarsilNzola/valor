@@ -1,29 +1,29 @@
 {
-    "name": "valor",
-    "version": "1.0.0",
-    "private": true,
-    "description": "Autonomous Value Allocation & Reward Oracle — Hackathon Galáctica WDK Edition 1",
-    "workspaces": [
-      "contracts",
-      "agent",
-      "dashboard",
-      "shared"
-    ],
-    "scripts": {
-      "install:all": "npm install",
-      "build:contracts": "npm run build --workspace=contracts",
-      "build:agent": "npm run build --workspace=agent",
-      "build:dashboard": "npm run build --workspace=dashboard",
-      "build": "npm run build:contracts && npm run build:agent && npm run build:dashboard",
-      "test:contracts": "npm run test --workspace=contracts",
-      "test:agent": "npm run test --workspace=agent",
-      "test": "npm run test:contracts && npm run test:agent",
-      "deploy:sepolia": "npm run deploy:sepolia --workspace=contracts",
-      "agent:start": "npm run start --workspace=agent",
-      "dashboard:dev": "npm run dev --workspace=dashboard"
-    },
-    "engines": {
-      "node": ">=20.0.0",
-      "npm": ">=10.0.0"
-    }
+  "name": "valor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Autonomous Value Allocation & Reward Oracle — Hackathon Galáctica WDK Edition 1",
+  "workspaces": [
+    "contracts",
+    "agent",
+    "dashboard",
+    "shared"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "build": "npm run build --workspace=dashboard",
+    "start": "concurrently \"npm run start --workspace=agent\" \"npm run preview --workspace=dashboard\" --names \"agent,dashboard\" --prefix-colors \"yellow,cyan\"",
+    "dev": "concurrently \"npm run start --workspace=agent\" \"npm run dev --workspace=dashboard\" --names \"agent,dashboard\" --prefix-colors \"yellow,cyan\"",
+    "test:contracts": "npm run test --workspace=contracts",
+    "test:agent": "npm run test --workspace=agent",
+    "test": "npm run test:contracts && npm run test:agent",
+    "deploy:sepolia": "npm run deploy:sepolia --workspace=contracts"
+  },
+  "dependencies": {
+    "concurrently": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
 }

@@ -1,10 +1,10 @@
 services:
-  - type: worker
+  - type: web
     name: valor-agent
     runtime: docker
     dockerfilePath: ./Dockerfile
     dockerContext: .
-    plan: starter
+    plan: free
     autoDeploy: true
 
     envVars:
@@ -12,6 +12,12 @@ services:
         sync: false
 
       - key: RPC_URL
+        sync: false
+
+      - key: VITE_VAULT_ADDRESS
+        sync: false
+
+      - key: VITE_RPC_URL
         sync: false
 
       - key: CHAIN_ID
