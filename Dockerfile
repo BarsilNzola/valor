@@ -1,6 +1,8 @@
-FROM node:20-alpine AS builder
+FROM node:20-slim AS builder
 
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 
 COPY package.json ./
 COPY agent/package.json ./agent/
@@ -12,9 +14,9 @@ RUN npm install
 COPY agent/ ./agent/
 COPY dashboard/ ./dashboard/
 
-RUN npm run build
+RUN npm run build --workspace=dashboard
 
-FROM node:20-alpine AS production
+FROM node:20-slim AS production
 
 WORKDIR /app
 
