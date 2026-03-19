@@ -1,46 +1,37 @@
-# Dependencies (reinstalled in Docker)
 node_modules/
 **/node_modules/
 
-# Build artifacts
 dist/
-**/dist/
 build/
 
-# Hardhat artifacts (not needed for agent)
 contracts/artifacts/
 contracts/cache/
 contracts/typechain-types/
 contracts/coverage/
-contracts/deployments/
+contracts/coverage.json
 
-# Dashboard (separate deploy or static host)
-dashboard/
+contracts/deployments/*.json
+!contracts/deployments/.gitkeep
+shared/addresses.json
 
-# Env files — NEVER bake secrets into image
 .env
 **/.env
 !**/.env.example
 
-# Git
 .git/
 .gitignore
 
-# Logs
 *.log
 logs/
 
-# Dev files
 *.test.ts
 **/*.test.ts
 coverage/
 .nyc_output/
 
-# OS
 .DS_Store
 Thumbs.db
 
-# Docs
 README.md
 SETUP.md
 *.md
