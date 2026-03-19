@@ -30,7 +30,7 @@ process.on('uncaughtException', (err) => {
 
 // ─── Static file server + health endpoint ────────────────────────────────────
 const PORT = parseInt(process.env.PORT ?? '3000', 10)
-const DASHBOARD_DIST = path.resolve(__dirname, '../../../dashboard/dist')
+const DASHBOARD_DIST = path.resolve('/app/dashboard/dist')
 
 const MIME: Record<string, string> = {
   '.html': 'text/html',
