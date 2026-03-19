@@ -12,7 +12,7 @@
   "scripts": {
     "install:all": "npm install",
     "build": "npm run build --workspace=dashboard",
-    "start": "concurrently \"npm run start --workspace=agent\" \"npm run preview --workspace=dashboard\" --names \"agent,dashboard\" --prefix-colors \"yellow,cyan\" --kill-others-on-fail",
+    "start": "npm run start --workspace=agent",
     "dev": "concurrently \"npm run start --workspace=agent\" \"npm run dev --workspace=dashboard\" --names \"agent,dashboard\" --prefix-colors \"yellow,cyan\"",
     "test:contracts": "npm run test --workspace=contracts",
     "test:agent": "npm run test --workspace=agent",

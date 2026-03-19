@@ -1,9 +1,14 @@
 import 'dotenv/config'
 import http from 'http'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import { ValorAgent } from './agent/ValorAgent.js'
 import { logger } from './agent/logger.js'
 
-// ─── Graceful shutdown ──
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+// ─── Graceful shutdown ────────────────────────────────────────────────────────
 let agent: ValorAgent | null = null
 
 async function shutdown(signal: string) {
@@ -14,27 +19,39 @@ async function shutdown(signal: string) {
 
 process.on('SIGINT',  () => shutdown('SIGINT'))
 process.on('SIGTERM', () => shutdown('SIGTERM'))
-
 process.on('unhandledRejection', (reason) => {
   logger.error({ reason }, 'Unhandled promise rejection')
 })
-
 process.on('uncaughtException', (err) => {
   logger.error({ err }, 'Uncaught exception — shutting down')
   agent?.stop()
   process.exit(1)
 })
 
-// ─── Health server (required for Render web service) ─────────────────────────
-// Render needs an HTTP server listening on PORT to keep the service alive.
-// This minimal server also exposes agent status for monitoring.
+// ─── Static file server + health endpoint ────────────────────────────────────
 const PORT = parseInt(process.env.PORT ?? '3000', 10)
+const DASHBOARD_DIST = path.resolve(__dirname, '../../../dashboard/dist')
 
-let agentStartTime = Date.now()
-let loopCount = 0
+const MIME: Record<string, string> = {
+  '.html': 'text/html',
+  '.js':   'application/javascript',
+  '.css':  'text/css',
+  '.png':  'image/png',
+  '.svg':  'image/svg+xml',
+  '.ico':  'image/x-icon',
+  '.json': 'application/json',
+  '.woff2':'font/woff2',
+  '.woff': 'font/woff',
+  '.ttf':  'font/ttf',
+}
+
+const agentStartTime = Date.now()
 
 const server = http.createServer((req, res) => {
-  if (req.url === '/health' || req.url === '/') {
+  const url = req.url ?? '/'
+
+  // Health endpoint
+  if (url === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' })
     res.end(JSON.stringify({
       status:    'ok',
@@ -42,20 +59,38 @@ const server = http.createServer((req, res) => {
       network:   process.env.NETWORK ?? 'sepolia',
       vault:     process.env.VAULT_ADDRESS,
       uptime:    Math.floor((Date.now() - agentStartTime) / 1000),
-      loopCount,
       timestamp: new Date().toISOString(),
     }))
-  } else {
-    res.writeHead(404)
-    res.end('Not found')
+    return
   }
+
+  // Serve static dashboard files
+  let filePath = path.join(DASHBOARD_DIST, url === '/' ? 'index.html' : url)
+
+  // SPA fallback — unknown routes serve index.html
+  if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+    filePath = path.join(DASHBOARD_DIST, 'index.html')
+  }
+
+  const ext  = path.extname(filePath)
+  const mime = MIME[ext] ?? 'application/octet-stream'
+
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      res.writeHead(404)
+      res.end('Not found')
+      return
+    }
+    res.writeHead(200, { 'Content-Type': mime })
+    res.end(data)
+  })
 })
 
 server.listen(PORT, '0.0.0.0', () => {
-  logger.info({ port: PORT }, 'Health server listening')
+  logger.info({ port: PORT }, `Health + dashboard server listening`)
 })
 
-// ─── Boot ──
+// ─── Boot agent ───────────────────────────────────────────────────────────────
 logger.info('━━━ VALOR — Autonomous Value Allocation & Reward Oracle ━━━')
 logger.info('Hackathon Galáctica: WDK Edition 1 | Tipping Bot Track')
 logger.info('')
