@@ -1,0 +1,76 @@
+services:
+  # ─── Agent — Background Worker ──
+  - type: worker
+    name: valor-agent
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: starter
+    autoDeploy: true
+
+    envVars:
+      # Required — set manually in Render dashboard (never commit these)
+      - key: WDK_SEED_PHRASE
+        sync: false
+
+      - key: RPC_URL
+        sync: false
+
+      # Network
+      - key: CHAIN_ID
+        value: "11155111"
+
+      - key: NETWORK
+        value: "sepolia"
+
+      # Contract addresses
+      - key: VAULT_ADDRESS
+        value: "0xF087C088436A293a94700bfbE1783FD99b1a5d98"
+
+      - key: REGISTRY_ADDRESS
+        value: "0x36Ad158fE38a2eeD2CA76Ff0EA6B1bEF80212279"
+
+      - key: USDT_ADDRESS
+        value: "0xd077A400968890Eacc75cdc901F0356c943e4fDb"
+
+      # Agent tuning
+      - key: EPOCH_POLL_INTERVAL
+        value: "3600"
+
+      - key: MIN_SCORE_THRESHOLD
+        value: "1000"
+
+      - key: MAX_SIGNALS_PER_LOOP
+        value: "50"
+
+      - key: LOG_LEVEL
+        value: "info"
+
+      - key: NODE_ENV
+        value: "production"
+
+  # ─── Dashboard — Static Site ──
+  - type: web
+    name: valor-dashboard
+    runtime: static
+    buildCommand: cd dashboard && npm install && npm run build
+    staticPublishPath: dashboard/dist
+    pullRequestPreviewsEnabled: false
+    autoDeploy: true
+
+    envVars:
+      - key: VITE_VAULT_ADDRESS
+        value: "0xF087C088436A293a94700bfbE1783FD99b1a5d98"
+
+      - key: VITE_RPC_URL
+        sync: false          # Set manually — your Alchemy Sepolia URL
+
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
