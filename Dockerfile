@@ -14,6 +14,12 @@ RUN npm install
 COPY agent/ ./agent/
 COPY dashboard/ ./dashboard/
 
+# Build args passed at build time from Render env vars
+ARG VITE_VAULT_ADDRESS
+ARG VITE_RPC_URL
+ENV VITE_VAULT_ADDRESS=$VITE_VAULT_ADDRESS
+ENV VITE_RPC_URL=$VITE_RPC_URL
+
 RUN npm run build --workspace=dashboard
 
 FROM node:20-slim AS production
